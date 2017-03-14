@@ -1,0 +1,915 @@
+[
+    {
+      "id": "ae50973b.96d1f8",
+      "type": "tab",
+      "label": "Flow 1"
+    },
+    {
+      "id": "9062ee9b.3c3a9",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "func": "\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 298,
+      "y": 90,
+      "wires": [
+        [
+          "c3c0c19a.6f5a9"
+        ]
+      ]
+    },
+    {
+      "id": "26519d70.eaa662",
+      "type": "http in",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "url": "/deploy",
+      "method": "get",
+      "swaggerDoc": "",
+      "x": 107,
+      "y": 89,
+      "wires": [
+        [
+          "9062ee9b.3c3a9",
+          "5dc18ab0.74f554"
+        ]
+      ]
+    },
+    {
+      "id": "c3c0c19a.6f5a9",
+      "type": "template",
+      "z": "ae50973b.96d1f8",
+      "name": "jQuery",
+      "field": "payload",
+      "fieldType": "msg",
+      "format": "handlebars",
+      "syntax": "mustache",
+      "template": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Blockchain Deploy</title>\n  <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js\"></script>\n\n<!-- Latest compiled and minified CSS -->\n<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\" integrity=\"sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u\" crossorigin=\"anonymous\">\n\n<!-- Optional theme -->\n<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css\" integrity=\"sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp\" crossorigin=\"anonymous\">\n\n<!-- Latest compiled and minified JavaScript -->\n<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\" integrity=\"sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa\" crossorigin=\"anonymous\"></script>\n\n</head>\n<body>\n<div class=\"container\">\n<h1>Blockchain Deploy</h1>\n\nUse this page to deploy a smart contract to a blockchain fabric.<br><br>\n<hr>\n<form action=\"/\" id=\"deployForm\" >\n  Peer URL:  <input type=\"text\" name=\"peer\" size=\"70\"> ex: http://1.2.3.4:81<br><br>\n  Username:  <input type=\"text\" name=\"user\"> <br><br>\n  Password:  <input type=\"text\" name=\"pass\"> <br><br>\n\n  Select the smart Contract you want to deploy?<br>\n  <input type=\"radio\" name=\"cc\" value=\"simple\" checked> Simple 1.0<br> \n  <input type=\"radio\" name=\"cc\" value=\"iot\"> IoT 4.3<br>\n  <input type=\"radio\" name=\"cc\" value=\"aviation\"> Aviation 4.0<br>\n  <input type=\"radio\" name=\"cc\" value=\"elevator\"> Elevator 1.0<br>\n\n  <input id=\"submit\" type=\"button\" name=\"submit\" value=\"Deploy Contract\">\n</form>\n\n\n<script>\n    $(document).ready(function(){\n        // click on button submit\n        $(\"#submit\").on('click', function(){\n            // send ajax\n            $( \"#result\" ).empty().append( \"Please Wait...\" );\n            $.ajax({\n                url: '/deployData', // url where to submit the request\n                type : \"POST\", // type of action POST || GET\n                dataType : 'json', // data type\n                data : $(\"#deployForm\").serialize(), // post data || get data\n                success : function(data) {\n\n                document.cookie = \"url=false; expires=Thu, 18 Dec 2013 12:00:00 UTC\"\n                var content = $( data ).find( \"#result\" );\n                $( \"#result\" ).empty().append( data.result );\n                    \n                    console.log(result);\n                },\n                error: function(xhr, resp, text) {\n                    console.log(xhr, resp, text);\n                }\n            })\n        });\n        \n        $(\"#scanBtn\").on('click', function(){\n            // send ajax\n            $( \"#scanresult\" ).empty().append( \"Please Wait...\" );\n            $.ajax({\n                url: '/bcscan', // url where to submit the request\n                type : \"POST\", // type of action POST || GET\n                dataType : 'html', // data type\n                data : $(\"#deployForm\").serialize(), // post data || get data\n                success : function(data) {\n                \n                document.cookie = \"url=false; expires=Thu, 18 Dec 2013 12:00:00 UTC\"\n               // $( \"#scanresult\" ).empty().append( data.result );\n               \n                //line += \"<p>\"+data+\"</p>\";\n                // replace the messages div with the new \"line\"\n                //$( \"#scanresult\" ).empty().append( line );\n                $( \"#scanresult\" ).empty().append( data ); \n                \n                //$( \"#scanresult\" ).innerHTML = \"<p>\"+data+\"</p>\";\n                    \n                    console.log(result);\n                },\n                error: function(xhr, resp, text) {\n                    console.log(xhr, resp, text);\n                }\n            })\n        });\n    });\n\n</script>\n<br>\nDeploy Result:<br>\n<div id=\"result\"></div>\n<br>\n<hr>\n<form action=\"/\" id=\"scanForm\"  >\n  <input id=\"scanBtn\" type=\"button\" name=\"submit\" value=\"Scan for existing Contracts\">\n</form>\n<br>\nScan Result:<br>\n<div id=\"scanresult\"></div>\n</div>\n</body>\n</html>\n\n",
+      "x": 442,
+      "y": 90,
+      "wires": [
+        [
+          "585ec08b.add8b"
+        ]
+      ]
+    },
+    {
+      "id": "948b0e29.740f2",
+      "type": "http response",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "x": 720,
+      "y": 92,
+      "wires": []
+    },
+    {
+      "id": "8f9f0d81.96892",
+      "type": "http in",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "url": "/deployData",
+      "method": "post",
+      "swaggerDoc": "",
+      "x": 95,
+      "y": 204,
+      "wires": [
+        [
+          "a4d0fbb5.8797e8",
+          "3d78da59.597166"
+        ]
+      ]
+    },
+    {
+      "id": "5dc18ab0.74f554",
+      "type": "debug",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "active": true,
+      "console": "false",
+      "complete": "false",
+      "x": 316.5,
+      "y": 45,
+      "wires": []
+    },
+    {
+      "id": "1e4a2cdc.83e463",
+      "type": "http response",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "x": 1284.5,
+      "y": 387,
+      "wires": []
+    },
+    {
+      "id": "a4d0fbb5.8797e8",
+      "type": "debug",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "active": true,
+      "console": "false",
+      "complete": "false",
+      "x": 254,
+      "y": 163,
+      "wires": []
+    },
+    {
+      "id": "e860daa1.998008",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "sim",
+      "func": "msg.payload = { \"peer\": \"http://18.1.1.2:1800\", \"user\": \"igor\", \"pass\": \"pwd\", \"cc\": \"simple\", \"message\": \"The cat was playing in the garden.\" };\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 230.5,
+      "y": 241,
+      "wires": [
+        [
+          "3d78da59.597166"
+        ]
+      ]
+    },
+    {
+      "id": "a20a6ab4.da61e8",
+      "type": "inject",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "topic": "",
+      "payload": "",
+      "payloadType": "date",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "x": 95,
+      "y": 240,
+      "wires": [
+        [
+          "e860daa1.998008"
+        ]
+      ]
+    },
+    {
+      "id": "b4ba61ab.4689e",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "deploy",
+      "func": "delete msg.headers;\ndelete msg.header;\nmsg.peerlist = msg.payload;\nmsg.url = msg.data.peer + \"/chaincode\";\n\n\nif (msg.data.cc === \"simple\") \n{\n   // var path = \"https://github.com/ibm-watson-iot/blockchain-samples/simple_contract_hyperledger\";\n   var path = \"https://github.com/ibm-watson-iot/blockchain-samples/contracts/basic/simple_contract\";\n    var arg = \"{\\\"version\\\":\\\"1.0\\\",\\\"nickname\\\":\\\"simple_contract\\\"}\";\n}\nelse if (msg.data.cc === \"aviation\") \n{\n    var path = \"https://github.com/ibm-watson-iot/blockchain-samples/sdk/simple_aviation_sample_contract\";\n    var arg = \"{\\\"version\\\":\\\"4.0\\\",\\\"nickname\\\":\\\"simple_aviation_sample_contract\\\"}\";\n}\nelse if (msg.data.cc === \"iot\") \n{\n    var path = \"https://github.com/ibm-watson-iot/blockchain-samples/contracts/advanced/iot_sample_contract\";\n    var args = \"{\\\"version\\\":\\\"4.3\\\",\\\"nickname\\\":\\\"iot_contract\\\"}\";\n}\nelse if (msg.data.cc === \"elevator\") \n{\n    var path = \"https://github.com/WorldOfWatson2016/lab3282/simple_elevator_contract\";\n    var args = \"{\\\"version\\\":\\\"1.0\\\",\\\"nickname\\\":\\\"ELEVATOR\\\"}\";\n}\nelse\n{\n    msg.text.final = \"I don't know that contract yet!\" ;\n    msg.payload = JSON.stringify (msg.data);\n    return [null, msg] ;\n}\n\nmsg.headers = { 'Content-Type': 'application/json'};\n\nmsg.payload = {\n    \"jsonrpc\": \"2.0\",\n    \"method\": \"deploy\",\n    \"params\": {\n        \"type\": 1,\n        \"chaincodeID\":{\n              \"path\": path\n        },\n        \"ctorMsg\": {\n            \"function\":\"init\",\n            \"args\":[ arg ]\n        },\n        \"secureContext\": msg.data.user\n    },\n    \"id\":1234\n};\n\nreturn [msg, null];",
+      "outputs": "2",
+      "noerr": 0,
+      "x": 208.5,
+      "y": 576,
+      "wires": [
+        [
+          "ffa565db.922518"
+        ],
+        [
+          "391b47e0.fb6e18"
+        ]
+      ]
+    },
+    {
+      "id": "ffa565db.922518",
+      "type": "http request",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "method": "POST",
+      "ret": "obj",
+      "url": "",
+      "tls": "",
+      "x": 393,
+      "y": 574,
+      "wires": [
+        [
+          "99a6315f.e98ab",
+          "43e9a4a1.adf55c"
+        ]
+      ]
+    },
+    {
+      "id": "99a6315f.e98ab",
+      "type": "debug",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "active": true,
+      "console": "false",
+      "complete": "false",
+      "x": 550.5,
+      "y": 540,
+      "wires": []
+    },
+    {
+      "id": "6067b490.4c854c",
+      "type": "trigger",
+      "z": "ae50973b.96d1f8",
+      "op1": "",
+      "op2": "true",
+      "op1type": "nul",
+      "op2type": "bool",
+      "duration": "5",
+      "extend": false,
+      "units": "s",
+      "reset": "",
+      "name": "",
+      "x": 500,
+      "y": 291,
+      "wires": [
+        [
+          "80613210.0d678"
+        ]
+      ]
+    },
+    {
+      "id": "2b9f5329.d1228c",
+      "type": "http request",
+      "z": "ae50973b.96d1f8",
+      "name": "ping",
+      "method": "GET",
+      "ret": "txt",
+      "url": "",
+      "tls": "",
+      "x": 480.5,
+      "y": 336,
+      "wires": [
+        [
+          "b85bc4c8.3b1a38",
+          "a3a470aa.3a99e"
+        ]
+      ]
+    },
+    {
+      "id": "3d78da59.597166",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "peer list",
+      "func": "msg.data = msg.payload;\nmsg.url = msg.payload.peer + \"/network/peers\";\n\nif (msg.payload.peer === \"\" ) \n{\n    msg.payload = {\"result\": \"missing peer url\"};\n    return [msg, null];\n}\n\ncontext.set('url_cookie', msg.payload.peer);\nreturn [null, msg];",
+      "outputs": "2",
+      "noerr": 0,
+      "x": 315,
+      "y": 208,
+      "wires": [
+        [
+          "c721ce4e.38af3"
+        ],
+        [
+          "2b9f5329.d1228c",
+          "6067b490.4c854c"
+        ]
+      ]
+    },
+    {
+      "id": "43e9a4a1.adf55c",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "result",
+      "func": "delete msg.header;\ndelete msg.headers;\n\nmsg.response = JSON.stringify(msg.payload);\n\nmsg.payload = {\"result\": \"Hyperledger response: \\n\" + msg.response};\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 542.5,
+      "y": 575,
+      "wires": [
+        [
+          "a91343b0.7883f"
+        ]
+      ]
+    },
+    {
+      "id": "a91343b0.7883f",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "cookie set",
+      "func": "/*\nvar cookie = context.get('url_cookie') || '';\n\nmsg.headers = \n{ \n'Set-Cookie': 'url=' + cookie + '; Max-Age=3600; Version=1;' \n};\n\n*/\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 985.5,
+      "y": 385,
+      "wires": [
+        [
+          "b3eaa62.e58e258"
+        ]
+      ]
+    },
+    {
+      "id": "c6dc2242.dd198",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "register user",
+      "func": "delete msg.headers;\ndelete msg.header;\n\n\nmsg.headers = { 'Content-Type': 'application/json'};\n\nmsg.url = msg.data.peer + \"/registrar\";\n\nmsg.payload = {\n  \"enrollId\": msg.data.user,\n  \"enrollSecret\": msg.data.pass\n};\n\nreturn msg;",
+      "outputs": "1",
+      "noerr": 0,
+      "x": 232.5,
+      "y": 465,
+      "wires": [
+        [
+          "5268f870.5e20b8",
+          "c736fd26.aeb4e"
+        ]
+      ]
+    },
+    {
+      "id": "5268f870.5e20b8",
+      "type": "http request",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "method": "POST",
+      "ret": "obj",
+      "url": "",
+      "tls": "",
+      "x": 401.5,
+      "y": 465,
+      "wires": [
+        [
+          "26bfc749.3a1c98",
+          "e81ab3b6.6004c"
+        ]
+      ]
+    },
+    {
+      "id": "26bfc749.3a1c98",
+      "type": "debug",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "active": true,
+      "console": "false",
+      "complete": "false",
+      "x": 574.5,
+      "y": 424,
+      "wires": []
+    },
+    {
+      "id": "b85bc4c8.3b1a38",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "reset",
+      "func": "msg.reset = true;\n\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 503.5,
+      "y": 237,
+      "wires": [
+        [
+          "6067b490.4c854c"
+        ]
+      ]
+    },
+    {
+      "id": "e81ab3b6.6004c",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "result",
+      "func": "msg.text.register = msg.payload; \n\nreturn msg;",
+      "outputs": "1",
+      "noerr": 0,
+      "x": 543.5,
+      "y": 465,
+      "wires": [
+        [
+          "b4ba61ab.4689e"
+        ]
+      ]
+    },
+    {
+      "id": "a3a470aa.3a99e",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "result",
+      "func": "\n\nmsg.text = { 'peers': msg.payload };\n\nif (msg.statusCode === 200)\n{\n    return [null, msg];\n}\n\nmsg.payload = { 'result': 'Could not reach peer. Check credentials' };\nreturn [msg, null];",
+      "outputs": "2",
+      "noerr": 0,
+      "x": 615.5,
+      "y": 338,
+      "wires": [
+        [
+          "a91343b0.7883f"
+        ],
+        [
+          "c6dc2242.dd198"
+        ]
+      ]
+    },
+    {
+      "id": "a166e6bf.f124f8",
+      "type": "template",
+      "z": "ae50973b.96d1f8",
+      "name": "plain",
+      "field": "payload",
+      "fieldType": "msg",
+      "format": "handlebars",
+      "syntax": "mustache",
+      "template": "<!DOCTYPE html>\n<html>\n<body>\n\nWelcome to my quick and easy Hyperledger contract deployer <br><br><br>\n<form action=\"/deployData\" method=\"post\" enctype='application/json' >\n  Peer <input type=\"text\" name=\"peer\"> (ex: http://1.1.1.1:7050  )<br><br>\n  user  <input type=\"text\" name=\"user\"> <br><br>\n  pass  <input type=\"text\" name=\"pass\"> <br><br>\n  Which Contract you want to deploy?<br>\n  <input type=\"radio\" name=\"cc\" value=\"simple\" checked> Simple<br><br> \n  <input type=\"radio\" name=\"cc\" value=\"trade\"> Trade Lane<br><br>\n  <input type=\"radio\" name=\"cc\" value=\"aviation\"> Aviation<br><br><br>\n  <br>\n  <input type=\"submit\" >\n</form>\n\n</body>\n</html>\n\n",
+      "x": 954.5,
+      "y": 204,
+      "wires": [
+        []
+      ]
+    },
+    {
+      "id": "b3eaa62.e58e258",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "splice",
+      "func": "msg.statusCode = 200;\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 1165.5,
+      "y": 388,
+      "wires": [
+        [
+          "1e4a2cdc.83e463",
+          "8eed7851.e37178"
+        ]
+      ]
+    },
+    {
+      "id": "8eed7851.e37178",
+      "type": "debug",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "active": true,
+      "console": "false",
+      "complete": "false",
+      "x": 1248.5,
+      "y": 457,
+      "wires": []
+    },
+    {
+      "id": "80613210.0d678",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "timeout",
+      "func": "msg.payload = { \"result\": \"Timeout! Check your info.\" };\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 661.5,
+      "y": 292,
+      "wires": [
+        [
+          "b3eaa62.e58e258"
+        ]
+      ]
+    },
+    {
+      "id": "c721ce4e.38af3",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "validation error",
+      "func": "return msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 509.5,
+      "y": 202,
+      "wires": [
+        [
+          "a91343b0.7883f"
+        ]
+      ]
+    },
+    {
+      "id": "391b47e0.fb6e18",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "result",
+      "func": "delete msg.header;\ndelete msg.headers;\n\nmsg.response = JSON.stringify(msg.payload);\n\nmsg.payload = {\"result\": \"I don't know that contract yet\" };\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 540.5,
+      "y": 612,
+      "wires": [
+        [
+          "a91343b0.7883f"
+        ]
+      ]
+    },
+    {
+      "id": "c736fd26.aeb4e",
+      "type": "debug",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "active": true,
+      "console": "false",
+      "complete": "url",
+      "x": 393.5,
+      "y": 427,
+      "wires": []
+    },
+    {
+      "id": "610aa2a6.79defc",
+      "type": "http in",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "url": "/bcscan",
+      "method": "post",
+      "swaggerDoc": "",
+      "x": 118.5,
+      "y": 851,
+      "wires": [
+        [
+          "cd296f5a.3e884"
+        ]
+      ]
+    },
+    {
+      "id": "cd296f5a.3e884",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "peer list",
+      "func": "msg.data = msg.payload;\nmsg.url = msg.payload.peer + \"/chain\";\n\nif (msg.payload.peer === \"\" ) \n{\n    msg.payload = {\"result\": \"missing peer url\"};\n    return [null, msg];\n}\ncontext.set('url_cookie', msg.payload.peer);\n\nmsg.chaincodeList = [];\nreturn [msg, null];",
+      "outputs": "2",
+      "noerr": 0,
+      "x": 285.5,
+      "y": 853,
+      "wires": [
+        [
+          "a6100e7d.49fd3",
+          "4d84dd5e.a402f4"
+        ],
+        [
+          "de37895c.ba1398"
+        ]
+      ]
+    },
+    {
+      "id": "a6100e7d.49fd3",
+      "type": "http request",
+      "z": "ae50973b.96d1f8",
+      "name": "ping",
+      "method": "GET",
+      "ret": "txt",
+      "url": "",
+      "tls": "",
+      "x": 466.5,
+      "y": 855,
+      "wires": [
+        [
+          "c2c20af1.9f0d58",
+          "6161f14a.f226e",
+          "44a17368.71adbc"
+        ]
+      ]
+    },
+    {
+      "id": "6161f14a.f226e",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "result",
+      "func": "if (!msg.hasOwnProperty('index'))\n{\n    m = JSON.parse(msg.payload);\n    msg.height = m.height;  //get from reading\n    \n    if (isNaN(msg.height) )\n    {\n        msg.height = 0;\n    }\n    \n    msg.index = 0;\n}\n\n\nmsg.url = msg.data.peer + '/chain/blocks/' + msg.index;\n\n\nreturn msg;",
+      "outputs": "1",
+      "noerr": 0,
+      "x": 435.5,
+      "y": 1079,
+      "wires": [
+        [
+          "b24ab79c.aab018",
+          "e2ac231d.14f02",
+          "451b9872.9a7248",
+          "cee29d94.ab104",
+          "a6e98a84.f385d8"
+        ]
+      ]
+    },
+    {
+      "id": "4d84dd5e.a402f4",
+      "type": "trigger",
+      "z": "ae50973b.96d1f8",
+      "op1": "",
+      "op2": "true",
+      "op1type": "nul",
+      "op2type": "bool",
+      "duration": "5",
+      "extend": false,
+      "units": "s",
+      "reset": "",
+      "name": "",
+      "x": 486,
+      "y": 810,
+      "wires": [
+        [
+          "9735976a.382e98"
+        ]
+      ]
+    },
+    {
+      "id": "9735976a.382e98",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "timeout",
+      "func": "msg.payload = { \"result\": \"Timeout! Check your info.\" };\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 647.5,
+      "y": 811,
+      "wires": [
+        [
+          "45be5c27.060564"
+        ]
+      ]
+    },
+    {
+      "id": "c2c20af1.9f0d58",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "reset",
+      "func": "msg.reset = true;\n\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 478.5,
+      "y": 764,
+      "wires": [
+        [
+          "4d84dd5e.a402f4"
+        ]
+      ]
+    },
+    {
+      "id": "de37895c.ba1398",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "validation error",
+      "func": "return msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 491.5,
+      "y": 911,
+      "wires": [
+        [
+          "45be5c27.060564"
+        ]
+      ]
+    },
+    {
+      "id": "45be5c27.060564",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "splice",
+      "func": "msg.statusCode = 200;\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 836.5,
+      "y": 888,
+      "wires": [
+        [
+          "1a17d972.60d9a7",
+          "1901eb68.8f2b05"
+        ]
+      ]
+    },
+    {
+      "id": "1a17d972.60d9a7",
+      "type": "http response",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "x": 955.5,
+      "y": 887,
+      "wires": []
+    },
+    {
+      "id": "1901eb68.8f2b05",
+      "type": "debug",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "active": false,
+      "console": "false",
+      "complete": "false",
+      "x": 919.5,
+      "y": 940,
+      "wires": []
+    },
+    {
+      "id": "44a17368.71adbc",
+      "type": "debug",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "active": false,
+      "console": "false",
+      "complete": "false",
+      "x": 719.5,
+      "y": 748,
+      "wires": []
+    },
+    {
+      "id": "cee29d94.ab104",
+      "type": "http request",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "method": "GET",
+      "ret": "obj",
+      "url": "",
+      "tls": "",
+      "x": 588.5,
+      "y": 1080,
+      "wires": [
+        [
+          "6b3a66c0.3ff878"
+        ]
+      ]
+    },
+    {
+      "id": "6b3a66c0.3ff878",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "complete?",
+      "func": "if (msg.payload.hasOwnProperty(\"transactions\"))\n{\n    var len = msg.payload.transactions.length;\n    for (var i=0;i<len;i++)\n    {\n        if (msg.payload.transactions[i].hasOwnProperty(\"chaincodeID\")){\n            var code = msg.payload.transactions[i].uuid;\n            if (code.length == 128){\n                var myDate = new Date( msg.payload.transactions[i].timestamp.seconds *1000);\n                msg.chaincodeList.push( {h: msg.index, date:myDate, chaincode: code} );\n            } \n            \n        }\n    }\n    \n}\n\n\nif (msg.index === msg.height) //all done walking the chain!\n{\n    msg.complete = true;\n    return [null, msg];\n}\n\nreturn [msg, null];",
+      "outputs": "2",
+      "noerr": 0,
+      "x": 750.5,
+      "y": 1080,
+      "wires": [
+        [
+          "2c0b2dd9.4a8362"
+        ],
+        [
+          "fd3def6d.940cb",
+          "2e9ae52c.adbd1a"
+        ]
+      ]
+    },
+    {
+      "id": "b24ab79c.aab018",
+      "type": "debug",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "active": false,
+      "console": "false",
+      "complete": "false",
+      "x": 562.5,
+      "y": 1155,
+      "wires": []
+    },
+    {
+      "id": "2c0b2dd9.4a8362",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "next block",
+      "func": "msg.index++;\nreturn msg;",
+      "outputs": "1",
+      "noerr": 0,
+      "x": 583.5,
+      "y": 1010,
+      "wires": [
+        [
+          "6161f14a.f226e"
+        ]
+      ]
+    },
+    {
+      "id": "a1942db6.13ed4",
+      "type": "http response",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "x": 1020.5,
+      "y": 1171,
+      "wires": []
+    },
+    {
+      "id": "e2ac231d.14f02",
+      "type": "debug",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "active": false,
+      "console": "false",
+      "complete": "height",
+      "x": 308.5,
+      "y": 1213,
+      "wires": []
+    },
+    {
+      "id": "451b9872.9a7248",
+      "type": "debug",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "active": false,
+      "console": "false",
+      "complete": "index",
+      "x": 312.5,
+      "y": 1173,
+      "wires": []
+    },
+    {
+      "id": "a6e98a84.f385d8",
+      "type": "debug",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "active": false,
+      "console": "false",
+      "complete": "url",
+      "x": 571.5,
+      "y": 1271,
+      "wires": []
+    },
+    {
+      "id": "585ec08b.add8b",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "cookie set",
+      "func": "var cookie = context.get('url_cookie') || '';\n\nmsg.headers = \n{ \n'Set-Cookie': 'url=' + cookie + '; Max-Age=3600; Version=1;' \n};\n\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 581.5,
+      "y": 94,
+      "wires": [
+        [
+          "948b0e29.740f2"
+        ]
+      ]
+    },
+    {
+      "id": "2267773b.577948",
+      "type": "http in",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "url": "/deploy/now",
+      "method": "get",
+      "swaggerDoc": "",
+      "x": 147.5,
+      "y": 715,
+      "wires": [
+        [
+          "9c61aab2.bd77f8",
+          "67257b48.455094"
+        ]
+      ]
+    },
+    {
+      "id": "67257b48.455094",
+      "type": "debug",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "active": true,
+      "console": "false",
+      "complete": "false",
+      "x": 363.5,
+      "y": 707,
+      "wires": []
+    },
+    {
+      "id": "9c61aab2.bd77f8",
+      "type": "http response",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "x": 359.5,
+      "y": 671,
+      "wires": []
+    },
+    {
+      "id": "fd3def6d.940cb",
+      "type": "function",
+      "z": "ae50973b.96d1f8",
+      "name": "stringify",
+      "func": "//var m = JSON.stringify(msg.payload);\nmsg.payload = msg.chaincodeList;\nmsg.statusCode = 200;\n\nmsg.payload.reverse();\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 936.5,
+      "y": 1087,
+      "wires": [
+        [
+          "dcc979dd.2b26e8"
+        ]
+      ]
+    },
+    {
+      "id": "2e9ae52c.adbd1a",
+      "type": "debug",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "active": true,
+      "console": "false",
+      "complete": "chaincodeList",
+      "x": 968.5,
+      "y": 1234,
+      "wires": []
+    },
+    {
+      "id": "dcc979dd.2b26e8",
+      "type": "template",
+      "z": "ae50973b.96d1f8",
+      "name": "",
+      "field": "payload",
+      "fieldType": "msg",
+      "format": "handlebars",
+      "syntax": "mustache",
+      "template": "    {{#payload}}\n      <font color=\"blue\">At height: </font> {{h}} <br>\n      <font color=\"blue\"> Deployed on: </font>{{date}} <br>\n      <font color=\"blue\"> ChainCode: </font>{{chaincode}}<br>\n        <hr>     \n    {{/payload}}\n\n    ",
+      "x": 968,
+      "y": 1132,
+      "wires": [
+        [
+          "a1942db6.13ed4"
+        ]
+      ]
+    },
+    {
+      "id": "ce6cc26c.da86d",
+      "type": "template",
+      "z": "ae50973b.96d1f8",
+      "name": "jQuery w/custom",
+      "field": "payload",
+      "fieldType": "msg",
+      "format": "handlebars",
+      "syntax": "mustache",
+      "template": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Blockchain Deploy</title>\n  <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js\"></script>\n\n<!-- Latest compiled and minified CSS -->\n<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\" integrity=\"sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u\" crossorigin=\"anonymous\">\n\n<!-- Optional theme -->\n<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css\" integrity=\"sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp\" crossorigin=\"anonymous\">\n\n<!-- Latest compiled and minified JavaScript -->\n<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\" integrity=\"sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa\" crossorigin=\"anonymous\"></script>\n\n</head>\n<body>\n<div class=\"container\">\n<h1>Blockchain Deploy</h1>\n\nUse this page to deploy a smart contract to a blockchain fabric.<br><br>\n<hr>\n<form action=\"/\" id=\"deployForm\" >\n  Peer URL:  <input type=\"text\" name=\"peer\" size=\"70\"> ex: http://1.2.3.4:81<br><br>\n  Username:  <input type=\"text\" name=\"user\"> <br><br>\n  Password:  <input type=\"text\" name=\"pass\"> <br><br>\n\n  Select the smart Contract you want to deploy?<br>\n  <input type=\"radio\" name=\"cc\" value=\"simple\" checked> Simple 1.0<br> \n  <input type=\"radio\" name=\"cc\" value=\"iot\"> IoT 4.3<br>\n  <input type=\"radio\" name=\"cc\" value=\"aviation\"> Aviation 4.0<br>\n  <input type=\"radio\" name=\"cc\" value=\"custom\"> custom contract:<br>\n       Path: <input type=\"text\" name=\"cc_url\"> version: <input type=\"text\" name=\"cc_ver\" size=\"5\"> nickname: <input type=\"text\" name=\"cc_name\" size=\"20\"><br><br>\n\n  <input id=\"submit\" type=\"button\" name=\"submit\" value=\"Deploy Contract\">\n</form>\n\n\n<script>\n    $(document).ready(function(){\n        // click on button submit\n        $(\"#submit\").on('click', function(){\n            // send ajax\n            $( \"#result\" ).empty().append( \"Please Wait...\" );\n            $.ajax({\n                url: '/deployData', // url where to submit the request\n                type : \"POST\", // type of action POST || GET\n                dataType : 'json', // data type\n                data : $(\"#deployForm\").serialize(), // post data || get data\n                success : function(data) {\n\n                document.cookie = \"url=false; expires=Thu, 18 Dec 2013 12:00:00 UTC\"\n                var content = $( data ).find( \"#result\" );\n                $( \"#result\" ).empty().append( data.result );\n                    \n                    console.log(result);\n                },\n                error: function(xhr, resp, text) {\n                    console.log(xhr, resp, text);\n                }\n            })\n        });\n        \n        $(\"#scanBtn\").on('click', function(){\n            // send ajax\n            $( \"#scanresult\" ).empty().append( \"Please Wait...\" );\n            $.ajax({\n                url: '/bcscan', // url where to submit the request\n                type : \"POST\", // type of action POST || GET\n                dataType : 'html', // data type\n                data : $(\"#deployForm\").serialize(), // post data || get data\n                success : function(data) {\n                \n                document.cookie = \"url=false; expires=Thu, 18 Dec 2013 12:00:00 UTC\"\n               // $( \"#scanresult\" ).empty().append( data.result );\n               \n                //line += \"<p>\"+data+\"</p>\";\n                // replace the messages div with the new \"line\"\n                //$( \"#scanresult\" ).empty().append( line );\n                $( \"#scanresult\" ).empty().append( data ); \n                \n                //$( \"#scanresult\" ).innerHTML = \"<p>\"+data+\"</p>\";\n                    \n                    console.log(result);\n                },\n                error: function(xhr, resp, text) {\n                    console.log(xhr, resp, text);\n                }\n            })\n        });\n    });\n\n</script>\n<br>\nDeploy Result:<br>\n<div id=\"result\"></div>\n<br>\n<hr>\n<form action=\"/\" id=\"scanForm\"  >\n  <input id=\"scanBtn\" type=\"button\" name=\"submit\" value=\"Scan for existing Contracts\">\n</form>\n<br>\nScan Result:<br>\n<div id=\"scanresult\"></div>\n</div>\n</body>\n</html>\n\n",
+      "x": 755,
+      "y": 149,
+      "wires": [
+        []
+      ]
+    }
+  ]
